@@ -1,0 +1,183 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "description": "REST API for a simple application which checks if a word is a palindrome..",
+      "version": "1.0.0",
+      "title": "Palindrome REST API",
+      "license": {
+        "name": "MIT",
+        "url": "https://opensource.org/licenses/MIT"
+      }
+    },
+    "tags": [
+      {
+        "name": "Palindrome",
+        "description": "API that manages CRUD operation on messages"
+      }
+    ],
+    "servers": [
+      {
+        "url": "/api/v1"
+      }
+    ],
+    "components": {
+      "schemas": {
+        "palindrome": {
+          "type": "object",
+          "properties": {
+            "message": {
+              "type": "string"
+            }
+          }
+        },
+        "message_id": {
+          "type": "string"
+        }
+      }
+    },
+    "paths": {
+      "/messages": {
+        "post": {
+          "tags": ["Palindrome"],
+          "summary": "Post new item to the inventory",
+          "requestBody": {
+            "description": "Post new item to the inventory",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inventory_item"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/inventory_item"
+              }
+            },
+            "404": {
+              "description": "NOT FOUND",
+              "schema": {
+                "$ref": "#/components/schemas/inventory_item"
+              }
+            }
+          }
+        },
+        "get": {
+          "tags": ["Palindrome"],
+          "summary": "Get all items from the inventory",
+  
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/inventory_item"
+              }
+            },
+            "404": {
+              "description": "NOT FOUND",
+              "schema": {
+                "$ref": "#/components/schemas/inventory_item"
+              }
+            }
+          }
+        }
+      },
+      "/messages/{message_id}": {
+        "get": {
+          "tags": ["Palindrome"],
+          "summary": "Get an item from the inventory ",
+          "parameters": [
+            {
+              "name": "item_id",
+              "in": "path",
+              "description": "Id of the item",
+              "required": true,
+              "type": "string",
+              "schema": {
+                "$ref": "#/components/schemas/item_id"
+              }
+            }
+          ],
+  
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/inventory_item"
+              }
+            },
+            "404": {
+              "description": "NOT FOUND",
+              "schema": {
+                "$ref": "#/components/schemas/inventory_item"
+              }
+            }
+          }
+        },
+        "put": {
+          "tags": ["Palindrome"],
+          "summary": "Update item in the inventory",
+          "requestBody": {
+            "description": "Update existing item in the inventory",
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/inventory_item"
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/inventory_item"
+              }
+            },
+            "404": {
+              "description": "NOT FOUND",
+              "schema": {
+                "$ref": "#/components/schemas/inventory_item"
+              }
+            }
+          }
+        },
+        "delete": {
+          "tags": ["Palindrome"],
+          "summary": "Delete a message from the system",
+          "parameters": [
+            {
+              "name": "message_id",
+              "in": "path",
+              "description": "Id of the message",
+              "required": true,
+              "type": "string",
+              "schema": {
+                "$ref": "#/components/schemas/message_id"
+              }
+            }
+          ],
+  
+          "responses": {
+            "200": {
+              "description": "OK",
+              "schema": {
+                "$ref": "#/components/schemas/palindrome"
+              }
+            },
+            "404": {
+              "description": "NOT FOUND",
+              "schema": {
+                "$ref": "#/components/schemas/palindrome"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
