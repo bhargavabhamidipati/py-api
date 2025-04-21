@@ -17,7 +17,7 @@ def create_message():
             return jsonify({'error': 'Database connection error'}), 500
 
         current_app.logger.info(f'Message created successfully: {created_message}')
-        return jsonify(created_message), 201
+        return jsonify(created_message), 200
 
     except ValidationError as validation_error:
         current_app.logger.error(f'Payload validation error: {validation_error.errors()}')
