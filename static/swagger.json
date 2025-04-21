@@ -22,11 +22,25 @@
     ],
     "components": {
       "schemas": {
-        "palindrome": {
+        "PalindromeCreateDTO": {
           "type": "object",
           "properties": {
             "message": {
               "type": "string"
+            }
+          }
+        },
+        "PalindromeResponseDTO":{
+          "type":"object",
+          "properties":{
+            "message": {
+              "type":"string"
+            },
+            "message_id":{
+              "type":"string"
+            },
+            "isPalindrome":{
+              "type":"boolean"
             }
           }
         },
@@ -54,8 +68,12 @@
           "responses": {
             "200": {
               "description": "OK",
-              "schema": {
-                "$ref": "#/components/schemas/inventory_item"
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PalindromeResponseDTO"
+                  }
+                }
               }
             },
             "404": {
@@ -73,8 +91,12 @@
           "responses": {
             "200": {
               "description": "OK",
-              "schema": {
-                "$ref": "#/components/schemas/inventory_item"
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PalindromeResponseDTO"
+                  }
+                }
               }
             },
             "404": {
@@ -106,8 +128,12 @@
           "responses": {
             "200": {
               "description": "OK",
-              "schema": {
-                "$ref": "#/components/schemas/inventory_item"
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PalindromeResponseDTO"
+                  }
+                }
               }
             },
             "404": {
@@ -120,14 +146,27 @@
         },
         "put": {
           "tags": ["Palindrome"],
-          "summary": "Update item in the inventory",
+          "summary": "Update a message",
+          "description": "The API endpoint is responsible for updating a message based on the message_id and the message. Upon accessing the endpoint the specified message with the message_id mentioned is updated if found and if not found an error is thrown.",
+          "parameters": [
+            {
+              "name": "message_id",
+              "in": "path",
+              "description": "Id of the message",
+              "required": true,
+              "type": "string",
+              "schema": {
+                "$ref": "#/components/schemas/message_id"
+              }
+            }
+          ],
           "requestBody": {
-            "description": "Update existing item in the inventory",
+            "description": "Update an existing message in the system",
             "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/inventory_item"
+                  "$ref": "#/components/schemas/PalindromeCreateDTO"
                 }
               }
             }
@@ -135,21 +174,23 @@
           "responses": {
             "200": {
               "description": "OK",
-              "schema": {
-                "$ref": "#/components/schemas/inventory_item"
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PalindromeResponseDTO"
+                  }
+                }
               }
             },
             "404": {
-              "description": "NOT FOUND",
-              "schema": {
-                "$ref": "#/components/schemas/inventory_item"
-              }
+              "description": "NOT FOUND"
             }
           }
         },
         "delete": {
           "tags": ["Palindrome"],
-          "summary": "Delete a message from the system",
+          "summary": "Delete message by message_id",
+          "description":"The API endpoint is responsible for deleting a message based on the message_id provided in the path. Upon accessing the endpoint the specified message with the message_id mentioned is deleted if found and if not found an error is thrown.",
           "parameters": [
             {
               "name": "message_id",
@@ -165,16 +206,25 @@
   
           "responses": {
             "200": {
-              "description": "OK",
-              "schema": {
-                "$ref": "#/components/schemas/palindrome"
+              "description": "Success response states that the message was found and deleted from the system.",
+              "content": {
+                "application/json": {
+                  "schema": {
+                    "type": "object",
+                    "properties": {
+                      "message": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
               }
             },
             "404": {
-              "description": "NOT FOUND",
-              "schema": {
-                "$ref": "#/components/schemas/palindrome"
-              }
+              "description": "This error is thrown when the message_id is not found in the system"
+            },
+            "500": {
+              "description": "This error is thrown when there is an issue with database connectivity or server"
             }
           }
         }

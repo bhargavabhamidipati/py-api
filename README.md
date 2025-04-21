@@ -70,8 +70,11 @@ git clone https://github.com/bhargavabhamidipati/py-api.git
 cd py-api
 ```
 
-#### Run locally
+#### Run locally (For Windows)
 ```
+python -m venv venv
+venv\Scripts\activate
+pip install -r requirements.txt
 python main.py
 ```
 

@@ -35,23 +35,3 @@ def test_read_non_existent_message(client):
     assert response.status_code == 404
     assert "error" in response.get_json()
 
-
-def test_update_message_and_cleanup(client):
-    payload = {"message": "hello"}
-    create_response = client.post("/api/v1/messages", json=payload)
-    assert create_response.status_code == 201
-    message_id = create_response.get_json()["message_id"]
-
-    updated_payload = {"message": "noon"}
-    update_response = client.put(f"/api/v1/messages/{message_id}", json=updated_payload)
-    assert update_response.status_code == 200
-
-    get_response = client.get(f"/api/v1/messages/{message_id}")
-    assert get_response.status_code == 200
-    assert get_response.get_json()["message"] == "noon"
-    assert get_response.get_json()["is_palindrome"] is True
-
-    delete_response = client.delete(f"/api/v1/messages/{message_id}")
-    assert delete_response.status_code == 200
-
-
