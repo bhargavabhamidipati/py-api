@@ -1,7 +1,7 @@
 {
     "openapi": "3.0.0",
     "info": {
-      "description": "REST API for a simple application which checks if a word is a palindrome..",
+      "description": "This is a Flask-based REST API that allows users to manage and check if submitted messages are palindromes",
       "version": "1.0.0",
       "title": "Palindrome REST API",
       "license": {
@@ -12,7 +12,7 @@
     "tags": [
       {
         "name": "Palindrome",
-        "description": "API that manages CRUD operation on messages"
+        "description": "This collection contains all the endpoints required to perform CRUD operations on messages"
       }
     ],
     "servers": [
@@ -53,21 +53,22 @@
       "/messages": {
         "post": {
           "tags": ["Palindrome"],
-          "summary": "Post new item to the inventory",
+          "summary": "Post new message",
+          "description":"This API endpoint is responsible for creating a new message entry. The service automatically checks if the provided content is a palindrome and stores in the database.",
           "requestBody": {
             "description": "Post new item to the inventory",
             "required": true,
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/inventory_item"
+                  "$ref": "#/components/schemas/PalindromeCreateDTO"
                 }
               }
             }
           },
           "responses": {
             "200": {
-              "description": "OK",
+              "description": "On success the message gets created in the database",
               "content": {
                 "application/json": {
                   "schema": {
@@ -76,21 +77,21 @@
                 }
               }
             },
-            "404": {
-              "description": "NOT FOUND",
-              "schema": {
-                "$ref": "#/components/schemas/inventory_item"
-              }
+            "400": {
+              "description": "This error is thrown when request payload is invalid for example missing fields, empty message etc."
+            },
+            "500": {
+              "description": "This error is thrown when a problem occurred while trying to read the message from the database."
             }
           }
         },
         "get": {
           "tags": ["Palindrome"],
-          "summary": "Get all items from the inventory",
-  
+          "summary": "Get all messages",
+          "description":"This API endpoint is responsible for fetching all the messages. Upon accessing the endpoint all the messages in the database are retrieved and sent. If there are no messages in the database an error is thrown.",
           "responses": {
             "200": {
-              "description": "OK",
+              "description": "success response returns a JSON array containing all message objects",
               "content": {
                 "application/json": {
                   "schema": {
@@ -100,10 +101,10 @@
               }
             },
             "404": {
-              "description": "NOT FOUND",
-              "schema": {
-                "$ref": "#/components/schemas/inventory_item"
-              }
+              "description": "This error is thrown when no message exists with the specified message_id"
+            },
+            "500": {
+              "description": "This error is thrown when a problem occurred while trying to read the message from the database."
             }
           }
         }
@@ -111,43 +112,8 @@
       "/messages/{message_id}": {
         "get": {
           "tags": ["Palindrome"],
-          "summary": "Get an item from the inventory ",
-          "parameters": [
-            {
-              "name": "item_id",
-              "in": "path",
-              "description": "Id of the item",
-              "required": true,
-              "type": "string",
-              "schema": {
-                "$ref": "#/components/schemas/item_id"
-              }
-            }
-          ],
-  
-          "responses": {
-            "200": {
-              "description": "OK",
-              "content": {
-                "application/json": {
-                  "schema": {
-                    "$ref": "#/components/schemas/PalindromeResponseDTO"
-                  }
-                }
-              }
-            },
-            "404": {
-              "description": "NOT FOUND",
-              "schema": {
-                "$ref": "#/components/schemas/inventory_item"
-              }
-            }
-          }
-        },
-        "put": {
-          "tags": ["Palindrome"],
-          "summary": "Update a message",
-          "description": "The API endpoint is responsible for updating a message based on the message_id and the message. Upon accessing the endpoint the specified message with the message_id mentioned is updated if found and if not found an error is thrown.",
+          "summary": "Get message by message_id ",
+          "description":"This API endpoint is responsible for fetching a message based on the message_id provided in the path. Upon accessing the endpoint the specified message with the message_id mentioned is retrieved and sent if found and if not found an error is thrown.",
           "parameters": [
             {
               "name": "message_id",
@@ -160,20 +126,10 @@
               }
             }
           ],
-          "requestBody": {
-            "description": "Update an existing message in the system",
-            "required": true,
-            "content": {
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PalindromeCreateDTO"
-                }
-              }
-            }
-          },
+  
           "responses": {
             "200": {
-              "description": "OK",
+              "description": "On success the message object is returned with message body",
               "content": {
                 "application/json": {
                   "schema": {
@@ -183,14 +139,17 @@
               }
             },
             "404": {
-              "description": "NOT FOUND"
+              "description": "This error is thrown when no message exists with the specified message_id"
+            },
+            "500": {
+              "description": "This error is thrown when a problem occurred while trying to read the message from the database."
             }
           }
         },
         "delete": {
           "tags": ["Palindrome"],
           "summary": "Delete message by message_id",
-          "description":"The API endpoint is responsible for deleting a message based on the message_id provided in the path. Upon accessing the endpoint the specified message with the message_id mentioned is deleted if found and if not found an error is thrown.",
+          "description":"This API endpoint is responsible for deleting a message based on the message_id provided in the path. Upon accessing the endpoint the specified message with the message_id mentioned is deleted if found and if not found an error is thrown.",
           "parameters": [
             {
               "name": "message_id",
@@ -221,10 +180,10 @@
               }
             },
             "404": {
-              "description": "This error is thrown when the message_id is not found in the system"
+              "description": "This error is thrown when no message exists with the specified message_id to delete."
             },
             "500": {
-              "description": "This error is thrown when there is an issue with database connectivity or server"
+              "description": "This error is thrown when a problem occurred while trying to delete the message from the database"
             }
           }
         }
