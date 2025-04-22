@@ -1,6 +1,6 @@
 import os
 
-
+# Initializing firebase configuration using github secrets
 firebase_config = {
   "apiKey": str(os.getenv("API_KEY")),
   "authDomain": str(os.getenv("AUTH_DOMAIN")),

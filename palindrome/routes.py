@@ -3,11 +3,21 @@ from pydantic import ValidationError
 from .dto import PalindromeCreateDTO
 from .services import PalindromeService
 
+# Create a Flask Blueprint for palindrome-related routes
 palindrome = Blueprint('palindrome', __name__)
+
+# Initialize the palindrome service layer
 palindrome_service = PalindromeService()
 
 @palindrome.route('/messages', methods=['POST'])
 def create_message():
+    """
+    Create a new message.
+    - Expects a JSON payload that matches PalindromeCreateDTO schema.
+    - Returns 200 with the created message if successful.
+    - Returns 400 if validation fails.
+    - Returns 500 if a database error occurs.
+    """
     try:
         create_dto = PalindromeCreateDTO(**request.get_json())
         created_message = palindrome_service.add_message(create_dto)
@@ -26,6 +36,12 @@ def create_message():
 
 @palindrome.route('/messages/<string:message_id>', methods=['GET'])
 def read_message(message_id: str):
+    """
+    Retrieve a single message by its ID.
+    - Returns 200 and the message data if found.
+    - Returns 404 if the message does not exist.
+    - Returns 500 if a database error occurs.
+    """
     message_snapshot = palindrome_service.get_message(message_id)
 
     if message_snapshot is None:
@@ -43,6 +59,12 @@ def read_message(message_id: str):
 
 @palindrome.route('/messages', methods=['GET'])
 def read_all_messages():
+    """
+    Retrieve all stored messages.
+    - Returns 200 and a list of messages if any are found.
+    - Returns 404 if no messages are available.
+    - Returns 500 if a database error occurs.
+    """
     messages_snapshot = palindrome_service.get_all_messages()
 
     if messages_snapshot is None:
@@ -61,6 +83,12 @@ def read_all_messages():
 
 @palindrome.route('/messages/<string:message_id>', methods=['DELETE'])
 def remove_message(message_id: str):
+    """
+    Delete a message by its ID.
+    - Returns 200 and confirmation message if deleted successfully.
+    - Returns 404 if the message does not exist.
+    - Returns 500 if a database error occurs.
+    """
     deletion_result = palindrome_service.delete_message(message_id)
 
     if deletion_result is None:

@@ -4,6 +4,7 @@ from palindrome.routes import palindrome
 import logging
 from config.config import SWAGGER_URL, API_URL, LOGGING_LEVEL, SWAGGER_UI_CONFIG, URL_PREFIX
 
+# Initialize flask app
 app = Flask(__name__)
 
 # Set up logging
@@ -16,11 +17,10 @@ swaggerui_blueprint = get_swaggerui_blueprint(
     config=SWAGGER_UI_CONFIG
 )
 
-# Register blueprints
+# Register Swagger and api blueprint
 app.register_blueprint(swaggerui_blueprint)
 app.register_blueprint(palindrome, url_prefix=URL_PREFIX)
 
 if __name__ == '__main__':
     from waitress import serve
     serve(app, host="0.0.0.0", port=8080)
-    #app.run(debug=True, host='0.0.0.0', port=5000)
