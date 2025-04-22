@@ -1,14 +1,7 @@
 import pyrebase
 from contextlib import contextmanager
 from flask import current_app
-import json
-import os
-import base64
-
-firebase_config_b64 = os.getenv("FIREBASE_CONFIG")
-firebase_config_str = base64.b64decode(firebase_config_b64).decode()
-firebase_config = json.loads(firebase_config_str)
-current_app.logger.debug(f'firebase secrets {firebase_config}')
+from firebase_config import firebase_config
 
 @contextmanager
 def get_db_connection():
