@@ -37,7 +37,6 @@ This is a Flask-based REST API that allows users to manage and check if submitte
   |    |--- swagger.json
   |--- tests/
   |    |--- test_routes.py
-  |--- venv/
   |--- main.py
 ```
 
