@@ -1,6 +1,7 @@
 import logging
 
 SWAGGER_URL = '/api/docs'
+
 API_URL = '/static/swagger.json'
 
 LOGGING_LEVEL = logging.DEBUG

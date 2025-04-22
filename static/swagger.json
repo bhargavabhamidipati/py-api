@@ -101,7 +101,7 @@
               }
             },
             "404": {
-              "description": "This error is thrown when no message exists with the specified message_id"
+              "description": "This error is thrown when there are no messages in the system"
             },
             "500": {
               "description": "This error is thrown when a problem occurred while trying to read the message from the database."
