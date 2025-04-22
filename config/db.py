@@ -1,7 +1,7 @@
 import pyrebase
 from contextlib import contextmanager
 from flask import current_app
-from firebase_config import firebase_config
+from .firebase_config import firebase_config
 
 @contextmanager
 def get_db_connection():
