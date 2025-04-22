@@ -1,24 +1,17 @@
 import pyrebase
 from contextlib import contextmanager
 from flask import current_app
+import json
+import os
 
-firebaseConfig = {
-  "apiKey": "AIzaSyCEFGMlYcskFI1Fr2xwJ9XIcC68p2l84oA",
-  "authDomain": "flask-project-services.firebaseapp.com",
-  "databaseURL": "https://flask-project-services-default-rtdb.firebaseio.com",
-  "projectId": "flask-project-services",
-  "storageBucket": "flask-project-services.firebasestorage.app",
-  "messagingSenderId": "754163693367",
-  "appId": "1:754163693367:web:9b690822cc1246bc378cb2",
-  "measurementId": "G-JKHVZNFXVW"
-}
-
+firebase_config_str = os.getenv("FIREBASE_CONFIG")
+firebase_config = json.loads(firebase_config_str)
 
 @contextmanager
 def get_db_connection():
 
     try:
-        firebase = pyrebase.initialize_app(firebaseConfig)
+        firebase = pyrebase.initialize_app(firebase_config)
         db = firebase.database()
         yield db
     except Exception as e:
