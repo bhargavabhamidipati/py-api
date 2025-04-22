@@ -37,7 +37,6 @@ This is a Flask-based REST API that allows users to manage and check if submitte
   |    |--- swagger.json
   |--- tests/
   |    |--- test_routes.py
-  |--- venv/
   |--- main.py
 ```
 
@@ -88,7 +87,7 @@ git push origin main
 
 ## API Documentation
 
-This section of the document details the available API endpoints for managing the API.
+This section of the document details the available API endpoints for managing the API. To access the swagger documentation please [click here](https://py-api-450754445212.europe-north2.run.app/api/docs/#/)
 
 ---
 
