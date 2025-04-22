@@ -28,6 +28,7 @@ This is a Flask-based REST API that allows users to manage and check if submitte
   |    |--- __init__.py
   |    |--- config.py
   |    |--- db.py
+  |    |--- firebase_config.py
   |--- palindrome/
   |    |--- __init__.py
   |    |--- dto.py
